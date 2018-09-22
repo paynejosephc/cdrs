@@ -1,21 +1,35 @@
-import numpy as np
+# https://github.com/Battleroid/seccam
+# Source code modified by Joseph Payne and Brandon Gill
+
+
+
+from threading import Thread
 import cv2 as cv
 
 
-cap = cv.VideoCapture(0)
-cap2 = cv.VideoCapture(1)
-while(True):
-    # Capture frame-by-frame
-    ret, frame = cap.read()
-    ret2, frame2 = cap2.read()
-    # Our operations on the frame come here
-    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    
-    # Display the resulting frame
-    cv.imshow('frame',gray)
-    cv.imshow('frame2', frame2)
-    if cv.waitKey(1) & 0xFF == ord('q'):
-        break
-# When everything done, release the capture
-cap.release()
-cv.destroyAllWindows()
+class Camera:
+    def __init__(self, src=0):
+        self.cam = cv.VideoCapture(src)
+        self.ok, self.frame = self.cam.read()
+        self.stopped = False
+
+    def update(self):
+        while True:
+            if self.stopped:
+                return
+            self.ok, self.frame = self.cam.read()
+
+    def start(self):
+        self.stopped = False
+        Thread(target=self.update, args=()).start()
+        # return self
+
+    def stop(self):
+        self.stopped = True
+
+    def read(self):
+        return self.frame
+
+    def to_jpeg(self):
+        _, jpeg = cv.imencode('.jpg', self.frame)
+        return jpeg.tobytes()
