@@ -33,11 +33,13 @@ debug("Starting Accelerometer interface...")
 acc = Accel()
 
 impact_magnitude = 0
-
+debug("Starting Monitor Loop...")
 while(True):
-    impact_magnitude = 0 # accel.getmag() #get the magnitude of the acceleration
+    acc.updatexyz()
+    impact_magnitude = acc.getmag() #get the magnitude of the acceleration
 
     if impact_magnitude >= 3.0:
+        debug("Accel Magnitude: {}".format(impact_magnitude))
         # trigger Camera 0
         debug("TRIGGER: front camera")
 
@@ -56,8 +58,9 @@ while(True):
         # trigger GPS
         debug("TRIGGER: GPS")
 
+        debug("Waiting 15 for sensor data to stop writing to file..")
         time.sleep(15)
-        debug("Waiting 15 for sensor data to stop writing to file")
+        debug("Returning to monitoring...")
 
 
         
