@@ -114,8 +114,7 @@ class Lidar:
         self.trigger = False
 
 
-
-def main():
+if __name__ == "__main__":
 
     Rear = Lidar()
     Rear.start()
