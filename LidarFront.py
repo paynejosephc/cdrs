@@ -8,13 +8,14 @@ import datetime
 from threading import Thread
 
 
-class Lidar:
+class LidarFront:
     def __init__(self):
         self.Rear_Dist = Queue(30)
         self.TimeStamp = Queue(30)
         self.DataD = []
         self.DataT = []
         self.trigger = False
+        print("check")
 
     def run_loop(self):
         n = 0
@@ -66,7 +67,7 @@ class Lidar:
                         self.Data = [self.DataT,self.DataD]
                         Export_Data = zip_longest(*self.Data, fillvalue = '')
 
-                        with open('Lidar1.csv', "w", encoding = "ISO-8859-1", newline='') as csv_file:
+                        with open('LidarFront1.csv', "w", encoding = "ISO-8859-1", newline='') as csv_file:
                             writer = csv.writer(csv_file, delimiter=',')
                             writer.writerows(Export_Data)
                             csv_file.close()
@@ -82,7 +83,7 @@ class Lidar:
                         Export_Data = zip_longest(*self.Data, fillvalue = '')
                         print(self.Data)
 
-                        with open('Lidar1.csv', "a", encoding = "ISO-8859-1", newline='') as csv_file:
+                        with open('LidarFront1.csv', "a", encoding = "ISO-8859-1", newline='') as csv_file:
                             writer = csv.writer(csv_file, delimiter=',')
                             writer.writerows(Export_Data)
                             csv_file.close()
@@ -115,11 +116,11 @@ class Lidar:
 
 
 
-def main():
+if __name__ == "__main__":
 
-    Rear = Lidar()
-    Rear.start()
+    Front = LidarFront()
+    Front.start()
     time.sleep(20)
-    Rear.set_trigger()
+    Front.set_trigger()
     #print('checking')
     
