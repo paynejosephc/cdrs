@@ -115,7 +115,10 @@ class LidarFront:
         self.trigger = False
 
 
+<<<<<<< HEAD:LidarFront.py
 
+=======
+>>>>>>> 263ff5ba28aa80741d5bb66b4355810118e684c5:Lidar.py
 if __name__ == "__main__":
 
     Front = LidarFront()
