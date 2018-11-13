@@ -10,19 +10,20 @@ from threading import Thread
 
 class LidarFront:
     def __init__(self):
-        self.Rear_Dist = Queue(30)
-        self.TimeStamp = Queue(30)
+        self.Rear_Dist = Queue(465)
+        self.TimeStamp = Queue(465)
         self.DataD = []
         self.DataT = []
+        self.event_time = None
         self.trigger = False
-        print("check")
+        
 
     def run_loop(self):
         n = 0
         number_rows = 0
         while True:
 
-            time.sleep(.45)
+            time.sleep(.02)
             ser = serial.Serial('/dev/ttyUSB0',115200,timeout = 1)  
 
             ser.write(bytes(b'B'))
@@ -51,10 +52,10 @@ class LidarFront:
                 Dist_L = ser.read()
                 Dist_H = ser.read()
                 Dist_Total = (ord(Dist_H) * 256) + (ord(Dist_L))
-                print(str(Dist_Total) + ' cm')
+                #print(str(Dist_Total) + ' cm')
                 
                 if(self.trigger == True):
-                    
+
                     if n ==0:
                         
                         i = 0
@@ -66,8 +67,12 @@ class LidarFront:
                               
                         self.Data = [self.DataT,self.DataD]
                         Export_Data = zip_longest(*self.Data, fillvalue = '')
+                        
+                        self.event_time = datetime.datetime.now()
+                        name = '{event_time}'.format(
+                            event_time = self.event_time.strftime('%Y-%m-%d_%H-%H-%S_FLidar.csv'))
 
-                        with open('LidarFront1.csv', "w", encoding = "ISO-8859-1", newline='') as csv_file:
+                        with open(name, "w", encoding = "ISO-8859-1", newline='') as csv_file:
                             writer = csv.writer(csv_file, delimiter=',')
                             writer.writerows(Export_Data)
                             csv_file.close()
@@ -81,16 +86,16 @@ class LidarFront:
                         
                         self.Data = [self.DataT,self.DataD]
                         Export_Data = zip_longest(*self.Data, fillvalue = '')
-                        print(self.Data)
+                        #print(self.Data)
 
-                        with open('LidarFront1.csv', "a", encoding = "ISO-8859-1", newline='') as csv_file:
+                        with open(name, "a", encoding = "ISO-8859-1", newline='') as csv_file:
                             writer = csv.writer(csv_file, delimiter=',')
                             writer.writerows(Export_Data)
                             csv_file.close()
 
 
                 if(self.trigger == False):
-                    if self.Rear_Dist.qsize() >= 30:
+                    if self.Rear_Dist.qsize() >= 465:
                         self.Rear_Dist.get(0,1)
                         self.TimeStamp.get(0,1)
                     self.Rear_Dist.put(Dist_Total)
@@ -115,10 +120,7 @@ class LidarFront:
         self.trigger = False
 
 
-<<<<<<< HEAD:LidarFront.py
 
-=======
->>>>>>> 263ff5ba28aa80741d5bb66b4355810118e684c5:Lidar.py
 if __name__ == "__main__":
 
     Front = LidarFront()
