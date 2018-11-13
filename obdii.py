@@ -1,6 +1,7 @@
 """
 """
 import obd
+import datetime
 import time
 from threading import Thread
 from collections import deque
@@ -24,21 +25,28 @@ class obdii:
         self.rpm_cmd = obd.commands.RPM
         self.mil_cmd = obd.commands.DISTANCE_W_MIL
         count = -1
+        get_name = True
 
         while(True):
             if self._trigger:
                 #opens the out file
-                with open("file_name.csv", "w+") as out_file:
+                if get_name:
+                    name = '{event_time}'.format(
+                    event_time=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S_obd.csv')
+                    )
+                    get_name = False
+                with open(name, "w+") as out_file:
                     #writes every line to a file
                     for point in self.buffer:
                         out_file.writelines("{}, {}, {}, {}\n".format(point[0], point[1], point[2], point[3]))
                 count = 30
             if count >= 0:
-                with open("file_name.csv", "a") as out_file:
+                with open(name, "a") as out_file:
                     out_file.writelines("{}, {}, {}, {}\n".format(self.datapoint[0], self.datapoint[1], self.datapoint[2], self.datapoint[3]))
                 count -= 1
             else:
                 self._trigger = False
+                get_name = True
                     
 
             #calls a parameter from the vehicle
