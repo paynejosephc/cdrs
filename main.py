@@ -9,6 +9,8 @@ def debug(debugtext):
         
 import time
 from mpu6050 import Accel
+from recorder import Sentry
+from gps_module import gps_module
 
 # Start up OBDII
 debug("Starting OBDII interface...")
@@ -21,12 +23,15 @@ debug("Starting rear lidar interface...")
 
 # Start up camera 0
 debug("Starting front camera interface...")
+cam0 = Sentry(name = "front", verbose=True)
 
 # Start up camera 1
 debug("Starting rear camera interface...")
+cam1 = Sentry(name = "rear")
 
 # Start up GPS
 debug("Starting GPS inteface...")
+gps = gps_module()
 
 # Start up the Accelerometer code
 debug("Starting Accelerometer interface...")
@@ -42,9 +47,11 @@ while(True):
         debug("Accel Magnitude: {}".format(impact_magnitude))
         # trigger Camera 0
         debug("TRIGGER: front camera")
+        cam0.set_trigger()
 
         # trigger Camera 1
         debug("TRIGGER: rear camera")
+        cam1.set_trigger()
 
         # trigger LiDAR 0
         debug("TRIGGER: front lidar")
@@ -57,6 +64,7 @@ while(True):
 
         # trigger GPS
         debug("TRIGGER: GPS")
+
 
         debug("Waiting 15 for sensor data to stop writing to file..")
         time.sleep(15)
