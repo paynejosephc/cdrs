@@ -35,21 +35,22 @@ class gps_module:
                     self.getName = False
                 with open(name, "w+") as outfile:
                     for point in self.buffer:
-                        outfile.writelines("{},{},{}\n".format(point[0],point[1],point[2]))
+                        outfile.writelines("{},{},{},{}\n".format(point[0],point[1],point[2],point[3]))
                 count = 30
             if count >= 0:
                 with open(name, 'a') as outfile:
-                    outfile.writelines("{},{},{}\n".format(point[0], point[1], point[2]))
+                    outfile.writelines("{},{},{},{}\n".format(point[0], point[1], point[2],point[3]))
                 count -= 1
             else:
                 self._trigger = False
                 self.getName = True
             fix = gpsd.get_current()
+            timenow = str(datetime.datetime.now())
             self.lat = fix.position()[0]
             self.long = fix.position()[1]
             self.speed = fix.speed()
 
-            self.datapoint = [self.lat, self.long, self.speed]
+            self.datapoint = [timenow,self.lat, self.long, self.speed]
 
             self.buffer.append(self.datapoint)
 

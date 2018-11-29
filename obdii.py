@@ -39,11 +39,11 @@ class obdii:
                 with open(name, "w+") as out_file:
                     #writes every line to a file
                     for point in self.buffer:
-                        out_file.writelines("{}, {}, {}, {}\n".format(point[0], point[1], point[2], point[3]))
+                        out_file.writelines("{}, {}, {}, {}, {}\n".format(point[0], point[1], point[2], point[3],point[4]))
                 count = 30
             if count >= 0:
                 with open(name, "a") as out_file:
-                    out_file.writelines("{}, {}, {}, {}\n".format(self.datapoint[0], self.datapoint[1], self.datapoint[2], self.datapoint[3]))
+                    out_file.writelines("{}, {}, {}, {}, {}\n".format(self.datapoint[0], self.datapoint[1], self.datapoint[2], self.datapoint[3],self.datapoint[4]))
                 count -= 1
             else:
                 self._trigger = False
@@ -63,7 +63,7 @@ class obdii:
             #print(self.mil_response.value)
             
             #takes all four parameter values and stores them as a set
-            self.datapoint = [self.speed_response.value, self.throttle_response.value, self.rpm_response.value, self.mil_response.value]
+            self.datapoint = [str(datetime.datetime.now()), self.speed_response.value, self.throttle_response.value, self.rpm_response.value, self.mil_response.value]
 
             #appends it to the buffer
             self.buffer.append(self.datapoint)

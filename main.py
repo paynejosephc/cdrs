@@ -34,7 +34,7 @@ cam0 = Sentry(name = "front", verbose=True)
 
 # Start up camera 1
 debug("Starting rear camera interface...")
-cam1 = Sentry(name = "rear", src=1)
+cam1 = Sentry(name = "rear", src=1, verbose=True)
 
 # Start up GPS
 debug("Starting GPS inteface...")

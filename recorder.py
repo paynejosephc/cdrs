@@ -25,6 +25,7 @@ class Sentry:
         self.min_area = min_area
         self.verbose = verbose
         self.fps = fps
+        self.name = name
         self.trigger = False
         self.start()
 
@@ -64,7 +65,7 @@ class Sentry:
 
             # Show preview window if verbose mode is on
             if self.verbose:
-                cv.imshow('Sentry', frame)
+                cv.imshow('Sentry_'+self.name, frame)
                 cv.waitKey(1)
 
             # Sleep for an interval to achieve our desired framerate target
