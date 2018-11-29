@@ -16,6 +16,7 @@ class LidarFront:
         self.DataT = []
         self.event_time = None
         self.trigger = False
+        self.start()
         
 
     def run_loop(self):
@@ -69,7 +70,7 @@ class LidarFront:
                         Export_Data = zip_longest(*self.Data, fillvalue = '')
                         
                         self.event_time = datetime.datetime.now()
-                        name = '{event_time}'.format(
+                        name = '/home/pi/data/{event_time}'.format(
                             event_time = self.event_time.strftime('%Y-%m-%d_%H-%H-%S_FLidar.csv'))
 
                         with open(name, "w", encoding = "ISO-8859-1", newline='') as csv_file:

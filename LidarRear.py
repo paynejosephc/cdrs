@@ -16,6 +16,7 @@ class LidarRear:
         self.DataT = []
         self.trigger = False
         self.event_time = None
+        self.start()
         
     def run_loop(self):
         n = 0
@@ -71,7 +72,7 @@ class LidarRear:
 
                         #creates file with timestamp and writes data
                         self.event_time = datetime.datetime.now()
-                        name = '{event_time}'.format(
+                        name = '/home/pi/data/{event_time}'.format(
                             event_time = self.event_time.strftime('%Y-%m-%d_%H-%H-%S_RLidar.csv'))
 
                         with open(name, "w", encoding = "ISO-8859-1", newline='') as csv_file:

@@ -5,7 +5,7 @@ import datetime
 import time
 from threading import Thread
 from collections import deque
-obd.logger.setLevel(obd.logging.DEBUG)
+#obd.logger.setLevel(obd.logging.DEBUG)
 
 class obdii:
     def __init__(self):
@@ -32,7 +32,7 @@ class obdii:
             if self._trigger:
                 #opens the out file
                 if get_name:
-                    name = '{event_time}'.format(
+                    name = '/home/pi/data/{event_time}'.format(
                     event_time=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S_obd.csv')
                     )
                     get_name = False
