@@ -17,6 +17,7 @@ class obdii:
         self.buffer = deque(maxlen = 30)
         self.datapoint = 0
         self.connection = obd.OBD()
+        self.start()
 
     def run_loop(self):
         #connection = obd.OBD()

@@ -23,6 +23,7 @@ class gps_module:
         self.speed = ""
         self._trigger = False
         self.buffer = deque(maxlen=30)
+        self.start()
 
     def run_loop(self):
         self.getName = True
@@ -30,7 +31,7 @@ class gps_module:
         while True:
             if self._trigger:
                 if self.getName:
-                    name = "{}".format(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S_gps.csv"))
+                    name = "/home/pi/data/{}".format(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S_gps.csv"))
                     self.getName = False
                 with open(name, "w+") as outfile:
                     for point in self.buffer:
@@ -66,7 +67,7 @@ class gps_module:
 
 if __name__ == '__main__':
     gpsm = gps_module()
-    gpsm.start()
+    #gpsm.start()
     time.sleep(20)
     gpsm.trigger()
     

@@ -26,6 +26,7 @@ class Sentry:
         self.verbose = verbose
         self.fps = fps
         self.trigger = False
+        self.start()
 
     def run_loop(self):
         while True:

@@ -66,7 +66,7 @@ class EventLoop:
 
     def save(self):
         # Save video with event name & start time
-        name = '{event_name} {event_time}'.format(
+        name = '/home/pi/data/{event_name} {event_time}'.format(
             event_name=self.event_name,
             event_time=self.event_time.strftime('%Y-%m-%d %H-%M-%S')
         )

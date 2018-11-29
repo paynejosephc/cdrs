@@ -29,7 +29,7 @@ cam0_t = Thread(target=cam0.set_trigger)
 
 # Start up camera 1
 debug("Starting rear camera interface...")
-cam1 = Sentry(name = "rear")
+cam1 = Sentry(name = "rear", src=1)
 cam1_t = Thread(target=cam1.set_trigger)
 
 # Start up GPS
@@ -51,11 +51,11 @@ while(True):
         debug("Accel Magnitude: {}".format(impact_magnitude))
         # trigger Camera 0
         debug("TRIGGER: front camera")
-        #cam0.set_trigger()
-
+        cam0_t.start()
+        
         # trigger Camera 1
         debug("TRIGGER: rear camera")
-        #cam1.set_trigger()
+        cam1_t.start()
 
         # trigger LiDAR 0
         debug("TRIGGER: front lidar")
@@ -68,7 +68,7 @@ while(True):
 
         # trigger GPS
         debug("TRIGGER: GPS")
-        gps.trigger()
+        gps_t.start()
 
 
         debug("Waiting 15 for sensor data to stop writing to file..")
