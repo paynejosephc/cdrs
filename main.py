@@ -2,15 +2,16 @@
 
 """ This is the main file for the Wrech Tech Team's Crash Data Recording System
 (CDRS) unit. This file will be run as a service on startup of the RPi """
-debug = True
+debug_bool = True
 def debug(debugtext):
-    if debug:
+    if debug_bool:
         print(debugtext)
         
 import time
 from mpu6050 import Accel
 from recorder import Sentry
 from gps_module import gps_module
+from threading import Thread
 
 # Start up OBDII
 debug("Starting OBDII interface...")
@@ -24,14 +25,17 @@ debug("Starting rear lidar interface...")
 # Start up camera 0
 debug("Starting front camera interface...")
 cam0 = Sentry(name = "front", verbose=True)
+cam0_t = Thread(target=cam0.set_trigger)
 
 # Start up camera 1
 debug("Starting rear camera interface...")
 cam1 = Sentry(name = "rear")
+cam1_t = Thread(target=cam1.set_trigger)
 
 # Start up GPS
 debug("Starting GPS inteface...")
 gps = gps_module()
+gps_t = Thread(target=gps.trigger)
 
 # Start up the Accelerometer code
 debug("Starting Accelerometer interface...")
