@@ -51,11 +51,11 @@ while(True):
         debug("Accel Magnitude: {}".format(impact_magnitude))
         # trigger Camera 0
         debug("TRIGGER: front camera")
-        cam0.set_trigger()
+        #cam0.set_trigger()
 
         # trigger Camera 1
         debug("TRIGGER: rear camera")
-        cam1.set_trigger()
+        #cam1.set_trigger()
 
         # trigger LiDAR 0
         debug("TRIGGER: front lidar")
@@ -68,6 +68,7 @@ while(True):
 
         # trigger GPS
         debug("TRIGGER: GPS")
+        gps.trigger()
 
 
         debug("Waiting 15 for sensor data to stop writing to file..")
