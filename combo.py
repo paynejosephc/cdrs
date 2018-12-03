@@ -13,7 +13,7 @@ from collections import deque
 
 #TODO add no fix handling
 
-class gps_module:
+class combo:
     def __init__(self):
         gpsd.connect()
         self.lat = ""
@@ -42,13 +42,14 @@ class gps_module:
                 if self.getName:
                     name = "/home/pi/data/{}".format(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S_obd_gps.csv"))
                     self.getName = False
-                with open(name, "w+") as outfile:
+                with open(name, "a") as outfile:
+                    outfile.writelines("TimeStamp, Latitude, Longitude, GPS Speed, OBD Speed, Throttle Pos., RPM, MIL Status\n")
                     for point in self.buffer:
-                        outfile.writelines("{},{},{},{},{},{},{}\n".format(point[0],point[1],point[2],point[3],point[4],point[5],point[6]))
+                        outfile.writelines("{},{},{},{},{},{},{},{}\n".format(point[0],point[1],point[2],point[3],point[4],point[5],point[6],point[7]))
                 count = 30
             if count >= 0:
                 with open(name, 'a') as outfile:
-                    outfile.writelines("{},{},{},{},{},{},{}\n".format(self.datapoint[0],self.datapoint[1],self.datapoint[2],self.datapoint[3],self.datapoint[4],self.datapoint[5],self.datapoint[6]))
+                    outfile.writelines("{},{},{},{},{},{},{},{}\n".format(self.datapoint[0],self.datapoint[1],self.datapoint[2],self.datapoint[3],self.datapoint[4],self.datapoint[5],self.datapoint[6],self.datapoint[7]))
                 count -= 1
             else:
                 self._trigger = False
@@ -66,7 +67,7 @@ class gps_module:
             self.long = fix.position()[1]
             self.speed = fix.speed()
 
-            self.datapoint = [timenow,self.lat, self.long, self.speed, self.speed_response.value, self.throttle_response.value, self.rpm_response.value, self.mil_response.value]
+            self.datapoint = [timenow, self.lat, self.long, self.GPSspeed, self.speed_response.value, self.throttle_response.value, self.rpm_response.value, self.mil_response.value]
 
             self.buffer.append(self.datapoint)
 
