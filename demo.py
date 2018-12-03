@@ -95,4 +95,3 @@ if __name__ == "__main__":
     cam0 = Sentry(name="front",verbose=True)
     cam1 = Sentry(name="rear",src=1,verbose=True)
     update_t.start()
-    
