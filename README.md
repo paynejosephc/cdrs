@@ -13,3 +13,5 @@ This was written to run on a Raspberry Pi with PIGPIO installed.
 Run the `main_combo.py` file. This will start a task for the sensors and record the data the `/home/pi/data/` folder. 
 **Note: the `main.py` file works, but not on a RPi as it spawns too many threads.**
 
+### Sources:
+Camera interface uses code from [@Battleroid's seccam](https://github.com/Battleroid/seccam)
